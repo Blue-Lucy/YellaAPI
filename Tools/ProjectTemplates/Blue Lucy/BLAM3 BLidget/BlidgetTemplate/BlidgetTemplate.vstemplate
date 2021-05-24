@@ -1,0 +1,26 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>BLAM3 BLidget</Name>
+    <Description>Create a new BLAM3 blidget</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>BLAM3 BLidget</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="BlidgetTemplate.csproj" File="BlidgetTemplate.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Blidget.cs">BlidgetNameBlidget.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="manifest.xml">manifest.xml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="generic-icon.svg">generic-icon.svg</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="debug.json">debug.json</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

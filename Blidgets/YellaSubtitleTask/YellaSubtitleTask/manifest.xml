@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<blidget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <guid>7efcffa5-dddf-41ab-81a7-16bd59739c53</guid>
+  <name>Subtitle Task (Stellar)</name>
+  <icon>WFicon-YellaUmbrella.svg</icon>
+  <documentation>
+    # Purpose
+    
+    Raises a subtitling task in Stellar.
+    
+    # Usage
+    
+    Requires a project folder containing the assets to be worked on as an input.  The project folder should contain a single <span class="assets">asset</span> at the top level and any existing subtitle files in a sub folder called "Subtitles". 
+  </documentation>
+  <input>folders</input>
+  <output>folders</output>
+  <connectionPaths>primary</connectionPaths>
+  <entryPoint>YellaSubtitleTask.dll</entryPoint>
+  <parameters>
+    <parameter>
+      <name>name</name>
+      <type>text</type>
+      <displayName>Name</displayName>
+      <description>The name of the task</description>
+    </parameter>
+    <parameter>
+      <name>description</name>
+      <type>text</type>
+      <displayName>Description</displayName>
+      <description>A description of the task</description>
+    </parameter>
+    <parameter>
+      <name>type</name>
+      <type>text</type>
+      <displayName>Type</displayName>
+      <description>The type of task - for grouping and categorisation purposes</description>
+    </parameter>
+    <parameter>
+      <name>userIds</name>
+      <type>users</type>
+      <displayName>Assigned Users</displayName>
+      <description>A list of users to assign the task to</description>
+    </parameter>
+    <parameter>
+      <name>groupIds</name>
+      <type>groups</type>
+      <displayName>Assigned Groups</displayName>
+      <description>A list of groups to assign the task to</description>
+    </parameter>
+  </parameters>
+</blidget>

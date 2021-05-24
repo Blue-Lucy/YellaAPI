@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<blidget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <guid>$guid1$</guid>
+  <name>$projectname$</name>
+  <icon>generic-icon.svg</icon>
+  <documentation>
+    # Purpose
+    
+    Enter the purpose here.
+    
+    # Usage
+    
+    Enter the usage instructions here.    
+  </documentation>
+  <input>assets</input>
+  <output>assetfiles</output>
+  <connectionPaths>primary</connectionPaths>
+  <entryPoint>$safeprojectname$.dll</entryPoint>
+  <parameters>
+    
+  </parameters>
+</blidget>

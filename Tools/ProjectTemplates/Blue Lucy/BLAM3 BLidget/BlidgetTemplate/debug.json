@@ -1,0 +1,9 @@
+{
+  "apiEndpoint": "http://localhost:8771/api",
+  "tokenKey":  "",
+  "organisationId": 1,
+  "inputData": { "assetIds": [] },
+  "runState": {},
+  "arguments": {},
+  "completeOnly": false
+}

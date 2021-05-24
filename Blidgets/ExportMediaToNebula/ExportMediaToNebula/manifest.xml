@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<blidget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <guid>a9f4757b-0e0c-4fe9-bb88-212e5e53a853</guid>
+  <name>Export Media to Nebula</name>
+  <icon>WFicon-YellaUmbrella.svg</icon>
+  <documentation>
+    # Purpose
+    
+    Submits asset file for conversion with Nebula.
+    
+    # Usage
+    
+    
+  </documentation>
+  <input>assetfiles</input>
+  <output>assetfiles</output>
+  <connectionPaths>primary</connectionPaths>
+  <entryPoint>ExportMediaToNebula.dll</entryPoint>
+  <parameters>
+    <parameter>
+      <name>credentials_id</name>
+      <type>credentials</type>
+      <restrictions>
+        <schemaName>API Key (Service)</schemaName>
+      </restrictions>
+      <displayName>Microservice</displayName>
+      <description>The Yella microservice connection details</description>
+    </parameter>
+    <parameter>
+      <name>project_name</name>
+      <type>text</type>
+      <displayName>Project Name</displayName>
+      <description>The name of the related project</description>
+    </parameter>
+  </parameters>
+</blidget>
