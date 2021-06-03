@@ -29,8 +29,11 @@ namespace YellaSubtitleTask
             var name = GetArgument<string>("name");
             var description = GetArgument<string>("description");
             var type = GetArgument<string>("type");
-            var userIds = GetArgument<IEnumerable<int>>("userIds");
-            var groupIds = GetArgument<IEnumerable<int>>("groupIds");
+            var priorityTemplate = GetArgument<string>("priority");
+            var dueDateTemplate = GetArgument<string>("due_date");
+            var tags = GetArgument<IEnumerable<string>>("tags") ?? Array.Empty<string>();
+            var userIds = GetArgument<IEnumerable<int>>("userIds") ?? Array.Empty<int>();
+            var groupIds = GetArgument<IEnumerable<int>>("groupIds") ?? Array.Empty<int>();
 
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -42,33 +45,30 @@ namespace YellaSubtitleTask
                 throw new ArgumentException("The 'Type' input argument is required for creating a task and was not supplied.");
             }
 
-            if (!userIds.Any() && !groupIds.Any())
+            if (!tags.Any() && !userIds.Any() && !groupIds.Any())
             {
                 throw new ArgumentException("No users or groups have been specified for the task to be assigned to.");
             }
 
-            if (userIds.Any() && groupIds.Any())
+            if ((tags.Any() || userIds.Any()) && groupIds.Any())
             {
-                throw new ArgumentException("Either the 'Assigned Users' input argument or the 'Assigned Groups' input argument must be supplied but not both.");
+                throw new ArgumentException("Either the 'User Tags | Assigned Users' input argument or the 'Assigned Groups' input argument must be supplied but not both.");
             }
 
             if (inputData.FolderIds.Count() != 1)
             {
                 throw new ArgumentException($"Input must be for a single folder.  For multiple folders split workflows when submitting to be processed.");
             }
-            
-            var project = await blamClient.GetFolderById(inputData.FolderIds.First(), FolderStructureDepth.Full);
-            if (project.Assets.Count() != 1)
+
+            // Append Tagged UserIds
+            if (tags.Any())
             {
-                throw new ArgumentException($"Requires a single video asset to be provided in the top level folder.");
+                userIds = await GetDistinctUserIds(userIds, tags);
             }
 
-            var projectAsset = await blamClient.GetAssetById(project.Assets.First().Id);
-
+            var project = await blamClient.GetFolderById(inputData.FolderIds.First(), FolderStructureDepth.Full);
             var templateData = new TemplateData
             {
-                AssetId = projectAsset.Id,
-                Asset = projectAsset,
                 FolderId = project.Id,
                 Folder = project,
                 WorkflowRunId = WorkflowRunId
@@ -80,6 +80,18 @@ namespace YellaSubtitleTask
                 description = await description.Interpolate(blamClient, templateData);
             }
 
+            var priority = 0;
+            if (!string.IsNullOrWhiteSpace(priorityTemplate))
+            {
+                priority = int.TryParse(await priorityTemplate.Interpolate(blamClient, templateData), out var value) ? value : 0;
+            }
+
+            DateTimeOffset? dueDate = null;
+            if (!string.IsNullOrWhiteSpace(dueDateTemplate))
+            {
+                dueDate = DateTimeOffset.TryParse(await dueDateTemplate.Interpolate(blamClient, templateData), out var value) ? value : null;
+            }
+
             var yellaTask = await blamClient.CreateActionTask(new ActionTaskInputModel
             {
                 Name = name,
@@ -88,6 +100,8 @@ namespace YellaSubtitleTask
                 ProjectId = templateData?.FolderId,
                 WorkOrderId = templateData?.WorkOrderId,
                 Type = type,
+                Priority = priority,
+                DueDate = dueDate,
                 UserIds = userIds,
                 GroupIds = groupIds
             });
@@ -104,6 +118,16 @@ namespace YellaSubtitleTask
                 return Complete(inputData);
             }
             return Idle(runState);
+        }
+
+        private async Task<IEnumerable<int>> GetDistinctUserIds(IEnumerable<int> userIds, IEnumerable<string> tags)
+        {
+            var output = new HashSet<int>(userIds);
+
+            var users = await blamClient.GetUsers();
+            var matches = users.Where(p => p.Tags.Intersect(tags).Any()).Select(p => p.Id);
+
+            return output.Union(matches);
         }
     }
 }

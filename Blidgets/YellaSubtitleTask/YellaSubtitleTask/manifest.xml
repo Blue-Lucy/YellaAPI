@@ -31,20 +31,41 @@
     </parameter>
     <parameter>
       <name>type</name>
-      <type>text</type>
+      <type>choice</type>
       <displayName>Type</displayName>
+      <options>
+        <option value="Stellar">Stellar</option>
+      </options>
       <description>The type of task - for grouping and categorisation purposes</description>
+    </parameter>
+    <parameter>
+      <name>priority</name>
+      <type>text</type>
+      <displayName>Priority</displayName>
+      <description>The task priority, interpolatable</description>
+    </parameter>
+    <parameter>
+      <name>due_date</name>
+      <type>text</type>
+      <displayName>Due Date</displayName>
+      <description>The date the task is due</description>
+    </parameter>
+    <parameter>
+      <name>tags</name>
+      <type>tags</type>
+      <displayName>User Tags¹</displayName>
+      <description>A list of user tags to assign the task to</description>
     </parameter>
     <parameter>
       <name>userIds</name>
       <type>users</type>
-      <displayName>Assigned Users</displayName>
+      <displayName>Assigned Users¹</displayName>
       <description>A list of users to assign the task to</description>
     </parameter>
     <parameter>
       <name>groupIds</name>
       <type>groups</type>
-      <displayName>Assigned Groups</displayName>
+      <displayName>Assigned Groups²</displayName>
       <description>A list of groups to assign the task to</description>
     </parameter>
   </parameters>
